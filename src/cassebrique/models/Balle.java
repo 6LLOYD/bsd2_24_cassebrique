@@ -53,6 +53,10 @@ public class Balle extends Sprite {
         x += vitesseX;
         y += vitesseY;
 
+        if (y == 450 ){
+            vitesseY = -vitesseY;
+
+        }
         if(x >= CasseBrique.LARGEUR - diametre || x <= 0) {
             vitesseX = -vitesseX;
         }
@@ -66,7 +70,6 @@ public class Balle extends Sprite {
         dessin.setColor(couleur);
         dessin.fillOval(x,y,diametre,diametre);
     }
-
 
     public int getX() {
         return x;

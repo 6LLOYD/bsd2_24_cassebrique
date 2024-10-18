@@ -2,7 +2,7 @@ package cassebrique.models;
 
 import java.awt.*;
 
-public class Rectangle extends Sprite {
+public abstract class  Rectangle extends Sprite {
 
     protected int largeur;
     protected int hauteur;

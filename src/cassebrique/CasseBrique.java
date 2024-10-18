@@ -18,7 +18,10 @@ public class CasseBrique extends Canvas implements KeyListener {
     public Barre barre;
 
     public static final int LARGEUR = 500;
-    public static final int HAUTEUR = 700;
+    public static final int HAUTEUR = 550;
+
+    public boolean toucheDroite = false;
+    public boolean toucheGauche = false;
 
     public CasseBrique() throws InterruptedException {
 
@@ -48,13 +51,15 @@ public class CasseBrique extends Canvas implements KeyListener {
     public void lancerUnePartie() throws InterruptedException {
 
         listeBalle = new ArrayList<>();
-        listeBalle.add(new Balle(100,100,3,4));
-        listeBalle.add(new Balle(200,100,2,3));
-        listeBalle.add(new Balle(100,200,1,2));
+        //listeBalle.add(new Balle(100,100,3,4));
+        //listeBalle.add(new Balle(200,100,2,3));
+        //listeBalle.add(new Balle(100,200,7,4));
+        listeBalle.add(new Balle(156,207,4,3));
 
         barre = new Barre(
                 CasseBrique.LARGEUR / 2 - Barre.largeurDefaut / 2,
                 CasseBrique.HAUTEUR - 100);
+
 
         listeBrique = new ArrayList<>();
         for (int indexLigne = 0; indexLigne < 5; indexLigne ++) {
@@ -67,11 +72,6 @@ public class CasseBrique extends Canvas implements KeyListener {
             }
         }
 
-        //la balle peut avoir une couleur differente
-        //ajouter un constructeur permettant de definir la couleur de la balle
-        //si aucune couleur n'est donnée (utilisation du premier constructeur) : la couleur est aléatoire
-        //    Math.random() = donne un nombre entre 0 et 1 (un double)
-        //    new Color(R, G , B)  prend 3 float en parametre (pour rappel un double est trop grand pour un float)
         while(true) {
 
             Graphics2D dessin = (Graphics2D)this.getBufferStrategy().getDrawGraphics();
@@ -81,7 +81,17 @@ public class CasseBrique extends Canvas implements KeyListener {
 
             for(Balle balle : listeBalle) {
                 balle.deplacer();
+                if (balle.getY() == 450){
+                    System.out.println(balle);
+                }
                 balle.dessiner(dessin);
+            }
+
+            if(toucheDroite){
+                barre.deplacementDroite();
+            }
+            if(toucheGauche){
+                barre.deplacementGauche();
             }
 
             barre.dessiner(dessin);
@@ -110,16 +120,22 @@ public class CasseBrique extends Canvas implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-           System.out.println("droite");
+         toucheDroite = true;
        }
 
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("gauche");
+            toucheGauche = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            toucheDroite = false;
+        }
 
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            toucheGauche = false;
+        }
     }
 }
